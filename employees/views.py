@@ -13,18 +13,27 @@ from accounts.mixins import (
     AdminRequiredMixin,
     ManagerOrAdminRequiredMixin,
 )
-class EmployeeCreateView(CreateView):
+
+import secrets
+
+class EmployeeCreateView(AdminRequiredMixin, CreateView):
 
     model = User
-
     form_class = EmployeeForm
-
     template_name = 'employees/employee_form.html'
-
     success_url = reverse_lazy('employee_list')
 
     def form_valid(self, form):
+
+        # Assign employee role
         form.instance.role = 'EMPLOYEE'
+
+        # Generate a random temporary password
+        temporary_password = secrets.token_urlsafe(32)
+
+        # Store it securely as a Django password hash
+        form.instance.set_password(temporary_password)
+
         return super().form_valid(form)
 
 

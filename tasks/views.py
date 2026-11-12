@@ -13,6 +13,8 @@ from accounts.mixins import (
     ManagerOrAdminRequiredMixin,
     RoleRequiredMixin,
 )
+from django.utils import timezone
+from django.db.models import Q
 
 
 
@@ -39,26 +41,49 @@ class TaskListView(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
     paginate_by = 10
 
+
     def get_queryset(self):
         user = self.request.user
 
+            # Filter tasks based on user role
         if user.is_superuser or user.role == 'ADMIN':
-            return Task.objects.select_related(
-                'assigned_to', 'assigned_by'
-            ).order_by('-created_at')
+            queryset = Task.objects.all()
 
-        if user.role == 'MANAGER':
-            return Task.objects.filter(
-                assigned_by=user
-            ).select_related(
-                'assigned_to', 'assigned_by'
-            ).order_by('-created_at')
+        elif user.role == 'MANAGER':
+            queryset = Task.objects.filter(assigned_by=user)
 
-        return Task.objects.filter(
-            assigned_to=user
-        ).select_related(
-            'assigned_to', 'assigned_by'
-        ).order_by('-created_at')
+        else:
+            queryset = Task.objects.filter(assigned_to=user)
+
+        queryset = queryset.select_related('assigned_to', 'assigned_by')
+
+            # Filter by status
+        status = self.request.GET.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+
+        # Filter by priority
+        priority = self.request.GET.get('priority')
+        if priority:
+            queryset = queryset.filter(priority=priority)
+
+        # Filter overdue tasks
+        overdue = self.request.GET.get('overdue')
+        if overdue == '1':
+            queryset = queryset.filter(
+                due_date__lt=timezone.localdate()
+            ).exclude(status='COMPLETED')
+        # Search by task title or description
+        search = self.request.GET.get('search')
+
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) |
+                Q(description__icontains=search)
+            )
+
+        return queryset.order_by('-created_at')
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
 

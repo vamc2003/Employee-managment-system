@@ -1,0 +1,159 @@
+
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Employee Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2>
+            Welcome, {{ request.user.first_name|default:request.user.username }}!
+        </h2>
+        <p class="text-muted">
+            Here's an overview of your assigned tasks.
+        </p>
+    </div>
+
+    <!-- Task Statistics -->
+
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Tasks</h6>
+                    <h2>{{ total_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Pending</h6>
+                    <h2 class="text-warning">{{ pending_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">In Progress</h6>
+                    <h2 class="text-primary">{{ in_progress_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Completed</h6>
+                    <h2 class="text-success">{{ completed_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- My Tasks -->
+
+    <div class="card shadow-sm border-0 mt-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">My Recent Tasks</h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Task</th>
+                            <th>Assigned By</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Deadline</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for task in recent_tasks %}
+
+                        <tr>
+                            <td>{{ task.title }}</td>
+
+                            <td>
+                                {% if task.assigned_by %}
+                                    {{ task.assigned_by.username }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>{{ task.get_priority_display }}</td>
+
+                            <td>
+                                {% if task.status == 'COMPLETED' %}
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+                                {% elif task.status == 'IN_PROGRESS' %}
+                                    <span class="badge bg-primary">
+                                        In Progress
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>{{ task.due_date }}</td>
+
+                            <td>
+                                <a href="{% url 'task_detail' task.pk %}"
+                                   class="btn btn-outline-primary btn-sm">
+                                    View
+                                </a>
+
+                                <a href="{% url 'task_status_update' task.pk %}"
+                                   class="btn btn-outline-success btn-sm">
+                                    Update Status
+                                </a>
+                            </td>
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                You don't have any assigned tasks yet.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <a href="{% url 'task_list' %}"
+               class="btn btn-primary btn-sm">
+                View All My Tasks
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

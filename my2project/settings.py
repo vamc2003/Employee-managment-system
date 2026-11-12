@@ -136,3 +136,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 
 LOGOUT_REDIRECT_URL = 'login'
+# Development email configuration
+
+
+DEFAULT_FROM_EMAIL = 'ems@example.com'
