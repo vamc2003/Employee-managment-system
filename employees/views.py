@@ -1,17 +1,18 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import ListView
 from accounts.models import User
 
 
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from .forms import EmployeeForm
-from django.views.generic import DetailView
-from django.views.generic import UpdateView
-from django.views.generic import DeleteView
-
+from django.views.generic import ListView,DetailView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.mixins import (
+    AdminRequiredMixin,
+    ManagerOrAdminRequiredMixin,
+)
 class EmployeeCreateView(CreateView):
 
     model = User

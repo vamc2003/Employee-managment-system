@@ -1,0 +1,54 @@
+
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Update Task Status{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+
+        <div class="card-body p-4">
+
+            <h3 class="mb-3">Update Task Status</h3>
+
+            <p class="text-muted">
+                Task: <strong>{{ object.title }}</strong>
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Select Status
+                    </label>
+
+                    {{ form.status }}
+
+                    {% for error in form.status.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Update Status
+                </button>
+
+                <a href="{% url 'task_detail' object.pk %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -125,6 +125,8 @@
             <a href="{% url 'admin:index' %}">
                 Admin Panel
             </a>
+            <a href="{% url 'task_list' %}">Tasks</a>
+            <a href="{% url 'task_create' %}">Assign Task</a>
 
         </aside>
 
@@ -146,6 +148,13 @@
                         Administrator
                     </span>
                 </div>
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-outline-danger">
+                        Logout
+                    </button>
+                </form>
 
             </div>
 

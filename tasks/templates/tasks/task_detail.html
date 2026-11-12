@@ -1,0 +1,118 @@
+
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Task Details</h2>
+            <p class="text-muted">View complete task information.</p>
+        </div>
+        <a href="{% url 'task_update' task.pk %}"
+        class="btn btn-primary">
+            Edit Task
+        </a>
+        <a href="{% url 'task_status_update' task.pk %}"
+        class="btn btn-outline-success">
+            Update Status
+        </a>
+
+        <a href="{% url 'task_list' %}"
+        class="btn btn-secondary">
+        <a href="{% url 'task_delete' task.pk %}"
+        class="btn btn-danger">
+            Delete Task
+        </a>
+    
+            Back to Tasks
+        </a>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">
+            Back to Tasks
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">{{ task.title }}</h4>
+
+            <hr>
+
+            <div class="row mb-3">
+
+                <div class="col-md-6 mb-3">
+                    <strong>Task ID</strong>
+                    <p>{{ task.id }}</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Priority</strong>
+                    <p>{{ task.get_priority_display }}</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Status</strong>
+                    <p>{{ task.get_status_display }}</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Due Date</strong>
+                    <p>{{ task.due_date }}</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Assigned To</strong>
+                    <p>
+                        {% if task.assigned_to %}
+                            {{ task.assigned_to.username }}
+                        {% else %}
+                            Unassigned
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Assigned By</strong>
+                    <p>
+                        {% if task.assigned_by %}
+                            {{ task.assigned_by.username }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </p>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h5>Description</h5>
+
+            <p>
+                {{ task.description|default:"No description provided."|linebreaks }}
+            </p>
+
+            <hr>
+
+            <p class="text-muted small">
+                Created: {{ task.created_at }}
+            </p>
+
+            <p class="text-muted small">
+                Last Updated: {{ task.updated_at }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
