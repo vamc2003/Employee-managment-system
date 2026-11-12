@@ -1,0 +1,108 @@
+
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Employee Profile | EMS{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h3 class="fw-bold">Employee Profile</h3>
+        <p class="text-muted">Employee information and details</p>
+    </div>
+
+    <a href="{% url 'employee_list' %}"
+       class="btn btn-outline-secondary">
+        Back to Employees
+    </a>
+
+</div>
+
+<div class="content-card">
+
+    <div class="text-center mb-4">
+
+        <div class="rounded-circle bg-primary text-white d-flex
+                    align-items-center justify-content-center mx-auto mb-3"
+             style="width:90px;height:90px;font-size:30px;">
+
+            {{ employee.first_name|first|upper }}
+
+        </div>
+
+        <h4 class="fw-bold">
+            {{ employee.first_name }} {{ employee.last_name }}
+        </h4>
+
+        <p class="text-muted">
+            {{ employee.role }}
+        </p>
+
+    </div>
+
+    <hr>
+
+    <h5 class="fw-bold mb-3">Personal Information</h5>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <small class="text-muted">Employee ID</small>
+            <p class="fw-semibold">
+                {{ employee.employee_id|default:"-" }}
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-muted">Username</small>
+            <p class="fw-semibold">{{ employee.username }}</p>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-muted">Email</small>
+            <p class="fw-semibold">{{ employee.email }}</p>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-muted">Phone Number</small>
+            <p class="fw-semibold">
+                {{ employee.phone_number|default:"-" }}
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-muted">Department</small>
+            <p class="fw-semibold">
+                {{ employee.department|default:"Unassigned" }}
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <small class="text-muted">Date Joined</small>
+            <p class="fw-semibold">
+                {{ employee.date_joined|date:"d M Y" }}
+            </p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="d-flex gap-2">
+
+        <a href="{% url 'employee_update' employee.pk %}"
+           class="btn btn-primary">
+            Edit Employee
+        </a>
+
+        <a href="{% url 'employee_delete' employee.pk %}"
+           class="btn btn-outline-danger">
+            Delete Employee
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

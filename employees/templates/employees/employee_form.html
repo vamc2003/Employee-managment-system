@@ -1,0 +1,106 @@
+
+
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Employee Form | EMS{% endblock %}
+
+{% block content %}
+
+<div class="mb-4">
+    <h3 class="fw-bold">
+        {% if object %}
+            Edit Employee
+        {% else %}
+            Add New Employee
+        {% endif %}
+    </h3>
+
+    <p class="text-muted">
+        Enter employee information below.
+    </p>
+</div>
+
+<div class="content-card">
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <h5 class="fw-bold mb-4">Personal Information</h5>
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Username</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Employee ID</label>
+                {{ form.employee_id }}
+                {{ form.employee_id.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                {{ form.phone_number }}
+                {{ form.phone_number.errors }}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Department</label>
+                {{ form.department }}
+                {{ form.department.errors }}
+            </div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <div class="d-flex justify-content-end gap-2">
+
+            <a href="{% url 'employee_list' %}"
+               class="btn btn-outline-secondary">
+                Cancel
+            </a>
+
+            <button type="submit" class="btn btn-primary">
+                {% if object %}
+                    Save Changes
+                {% else %}
+                    Create Employee
+                {% endif %}
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

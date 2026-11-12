@@ -1,0 +1,81 @@
+
+
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Dashboard | EMS{% endblock %}
+
+{% block content %}
+
+<h3 class="fw-bold mb-2">Dashboard Overview</h3>
+
+<p class="text-muted mb-4">
+    Welcome back! Here's your organization overview.
+</p>
+
+<!-- Statistics -->
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <p class="text-muted mb-2">Total Employees</p>
+            <h2 class="stat-number">{{ total_employees }}</h2>
+            <span class="text-success small">Employee records</span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <p class="text-muted mb-2">Departments</p>
+            <h2 class="stat-number">{{ total_departments }}</h2>
+            <span class="text-primary small">Organization units</span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <p class="text-muted mb-2">Managers</p>
+            <h2 class="stat-number">{{ total_managers }}</h2>
+            <span class="text-warning small">Team managers</span>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <p class="text-muted mb-2">Administrators</p>
+            <h2 class="stat-number">{{ total_admins }}</h2>
+            <span class="text-info small">System administrators</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- Quick Actions -->
+<div class="content-card mb-4">
+
+    <h5 class="fw-bold mb-3">Quick Actions</h5>
+
+    <a href="{% url 'employee_list' %}"
+       class="btn btn-primary me-2 mb-2">
+        View Employees
+    </a>
+
+    <a href="{% url 'employee_create' %}"
+       class="btn btn-outline-primary mb-2">
+        Add New Employee
+    </a>
+
+</div>
+
+<!-- Welcome Section -->
+<div class="content-card">
+
+    <h5 class="fw-bold">Organization Management</h5>
+
+    <p class="text-muted mb-0">
+        Manage employee information, departments,
+        and organizational activities from one place.
+    </p>
+
+</div>
+
+{% endblock %}
