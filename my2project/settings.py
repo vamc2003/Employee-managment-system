@@ -31,15 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'employees',
-    'tasks',
+    'accounts.apps.AccountsConfig',
+    'employees.apps.EmployeesConfig',
+    'tasks.apps.TasksConfig',
     'dashboard',
 
 ]
@@ -53,6 +54,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Django Unfold Admin Customization
+
+UNFOLD = {
+    "SITE_TITLE": "EMS Admin",
+    "SITE_HEADER": "Employee Management System",
+    "SITE_SUBHEADER": "Administration Portal",
+    "SITE_SYMBOL": "groups",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "BORDER_RADIUS": "8px",
+}
+
 
 ROOT_URLCONF = 'my2project.urls'
 
